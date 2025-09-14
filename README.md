@@ -66,13 +66,7 @@ NIppon Paint/
 - **Entity Framework Migrations** - Database versioning
 
 ## Quick Setup
-
-### Option 1: Automated Setup (Recommended)
-1. **Database Setup**: Run `setup-database.bat`
-2. **Backend Setup**: Run `setup-backend.bat`
-3. **Frontend Setup**: Run `setup-frontend.bat`
-
-### Option 2: Manual Setup
+### Manual Setup
 
 #### Prerequisites
 - Node.js 18+ 
