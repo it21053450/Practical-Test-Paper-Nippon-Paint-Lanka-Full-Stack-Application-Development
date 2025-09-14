@@ -8,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddLogging(logging =>
+{
+    logging.AddConsole();
+    logging.AddDebug();
+    logging.SetMinimumLevel(LogLevel.Debug);
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Material Management API", Version = "v1" });
@@ -22,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:3001")
+        policy.WithOrigins("http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:3003")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -58,6 +64,4 @@ app.MapGet("/health", () => "Healthy");
 app.MapGet("/", () => Results.Ok(new { status = "Material Management API is running!", timestamp = DateTime.UtcNow }));
 
 // Run the application
-app.Run();
-
 app.Run();

@@ -38,13 +38,28 @@ namespace MaterialManagement.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMaterial([FromBody] MaterialRequest request)
         {
+            Console.WriteLine("Creating material: " + System.Text.Json.JsonSerializer.Serialize(request));
+            
             if (!ModelState.IsValid)
             {
+                var errors = string.Join("; ", ModelState.Values
+                    .SelectMany(x => x.Errors)
+                    .Select(x => x.ErrorMessage));
+                Console.WriteLine("Model validation failed: " + errors);
                 return BadRequest(ModelState);
             }
 
-            var material = await _materialService.CreateMaterialAsync(request);
-            return CreatedAtAction(nameof(GetMaterial), new { id = material.Id }, material);
+            try 
+            {
+                var material = await _materialService.CreateMaterialAsync(request);
+                Console.WriteLine("Material created successfully with ID: " + material.Id);
+                return CreatedAtAction(nameof(GetMaterial), new { id = material.Id }, material);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error creating material: " + ex.ToString());
+                throw;
+            }
         }
 
         [HttpPut("{id}")]
